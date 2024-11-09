@@ -1,0 +1,1734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Sharing Tool</title>
+    <style>
+        body {
+            font-family: Comic Sans MS, Cursive;
+            text-align: center;
+            font-size: 20px;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://mega.com.vn/media/news/2707_nen-slide-chu-de-giao-duc.jpg');
+            background-size: cover; 
+            background-position: auto; 
+        }
+        .section {
+            display: none;
+            margin: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .content, .lesson-content {
+            display: none;
+            margin: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: white;
+        }
+        .section.active, .content.active, .lesson-content.active {
+            display: block;
+        }
+
+        .subjects-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center; 
+            margin-top: 20px;
+        }
+
+        .subject-item {
+            width: 30%;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background-size: 100% 100%; 
+            background-repeat: no-repeat; 
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 20px;
+        }
+
+        /* Specific background images for subjects */
+        .subject-item1 { background-image: url('https://gitiho.com/caches/p_medium_large//uploads/315313/images/image_nen-powerpoint-vat-ly-13.jpg'); }
+        .subject-item2 { background-image: url('https://img.powerpoint.com.vn/uploads/2024/08/20/hinh-nen-powerpoint-toan-hoc_081111741.jpg'); }
+        .subject-item3 { background-image: url('https://gitiho.com/caches/p_medium_large//uploads/315313/images/image_nen-powerpoint-vat-ly-21.jpg'); color: white; }
+        .subject-item4 { background-image: url('https://gitiho.com/caches/p_medium_large//uploads/315313/images/image_nen-powerpoint-van-hoc-35.jpg'); }
+        .subject-item5 { background-image: url('https://gitiho.com/caches/p_medium_large//uploads/315313/images/image_mau-slide-powerpoint-lich-su-viet-nam-22.jpg'); }
+        .subject-item6 { background-image: url('https://haycafe.vn/wp-content/uploads/2021/12/Hinh-nen-powerpoint-de-thuong-cute.jpg'); }
+        .subject-item7 { background-image: url('https://cdn.tgdd.vn//GameApp/-1//Anhnenhoahoc3-kichthuoc1920x1080-800x450.jpg'); }
+        .subject-item8 { background-image: url('https://i.pinimg.com/564x/0e/d7/a3/0ed7a3aab643957e4796a12952406da6.jpg'); }
+        .subject-item9 { background-image: url('https://png.pngtree.com/background/20210710/original/pngtree-star-sky-smart-business-technology-background-picture-image_967939.jpg'); color: white; }
+
+        .subject-item:hover {
+            background-color: #e0e0e0;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ccc;
+        }
+
+        .tab-item {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            margin-right: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .tab-item.active {
+            background-color: #fff;
+            border-bottom: 2px solid #fff;
+            font-weight: bold;
+        }
+
+        .tab-item:hover {
+            background-color: #e0e0e0;
+        }
+
+        .lesson-menu, .discussion-section, .file-sharing-section, .reference-section, .note-section {
+            margin-top: 10px;
+            font-size:20px;
+        }
+
+        .lesson-item, .comment-item, .file-item {
+            cursor: pointer;
+            padding: 5px;
+            border: 1px solid #ddd;
+            margin-bottom: 5px;
+            background-color: #f9f9f9;
+            font-size:20px;
+
+        }
+
+        .lesson-item:hover, .comment-item:hover, .file-item:hover {
+            background-color: #e0e0e0;
+            
+        }
+        .note-section textarea {
+            width: 100%;
+            height: 100px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Document Sharing Tool</h1>
+    <div id="main-menu" class="section active">
+        <h2>Subjects</h2>
+        <div class="subjects-container">
+            <div class="subject-item subject-item1" onclick="showSection('chemistry-section')">Hoá Học</div>
+            <div class="subject-item subject-item2" onclick="showSection('mathematics-section')">Toán Học</div>
+            <div class="subject-item subject-item3" onclick="showSection('physics-section')">Vật lý</div>
+            <div class="subject-item subject-item4" onclick="showSection('literature-section')">Văn Học</div>
+            <div class="subject-item subject-item5" onclick="showSection('history-section')">Lịch Sử</div>
+            <div class="subject-item subject-item6" onclick="showSection('english-section')">Tiếng Anh</div>
+            <div class="subject-item subject-item7" onclick="showSection('biology-section')">Sinh Học</div>
+            <div class="subject-item subject-item8" onclick="showSection('geography-section')">Địa Lý</div>
+            <div class="subject-item subject-item9" onclick="showSection('computer-science-section')">Tin Học</div>
+        </div>
+    </div>
+
+    <!-- Mathematics Section with Tabs -->
+    <div id="mathematics-section" class="section">
+        <h2>Mathematics Documents</h2>
+        <div class="tabs">
+            <div class="tab-item active" onclick="showContent('algebra', this)">Lesson 1: Algebra</div>
+            <div class="tab-item" onclick="showContent('calculus', this)">Lesson 2: Calculus</div>
+        </div>
+
+        <!-- Algebra Content with sub-sections -->
+        <div id="algebra" class="content active">
+            <h3>Algebra</h3>
+            <div class="lesson-menu">
+                <div class="lesson-item" onclick="showLessonContent('algebra-exercises')">Bài tập</div>
+                <div class="lesson-item" onclick="showLessonContent('algebra-lecture')">Bài giảng</div>
+                <div class="lesson-item" onclick="showLessonContent('file-sharing')">Chia sẻ tài liệu</div>
+                <div class="lesson-item" onclick="showLessonContent('discussion')">Thảo luận</div>
+                <div class="lesson-item" onclick="showLessonContent('reference-materials')">Tài liệu tham khảo</div>
+                <div class="lesson-item" onclick="showLessonContent('notes')">Chú thích</div>
+            </div>
+        </div>
+
+        <!-- Algebra Exercises -->
+        <div id="algebra-exercises" class="lesson-content">
+            <h4>Algebra Exercises</h4>
+            <p>This section contains exercises for Algebra. Practice problems and solutions go here.</p>
+            <button onclick="backToAlgebra()">Back</button>
+        </div>
+
+        <!-- Algebra Lecture -->
+        <div id="algebra-lecture" class="lesson-content">
+            <h4>Algebra Lecture</h4>
+            <p>This section contains lecture notes for Algebra.</p>
+            <button onclick="backToAlgebra()">Back</button>
+        </div>
+
+        <!-- File Sharing Section -->
+        <div id="file-sharing" class="lesson-content">
+            <h4>File Sharing</h4>
+            <p>This section allows users to upload and share files related to Algebra.</p>
+            <button onclick="backToAlgebra()">Back</button>
+        </div>
+
+        <!-- Discussion Section -->
+        <div id="discussion" class="lesson-content">
+            <h4>Thảo luận</h4>
+            <input type="text" id="comment-input" placeholder="Enter your comment here" />
+            <button onclick="addComment()">Post</button>
+            <div class="discussion-section">
+                <h5>Comments</h5>
+                <div class="comment-item">No comments yet.</div>
+            </div>
+            <button onclick="backToAlgebra()">Back</button>
+        </div>
+
+        <!-- Reference Materials Section -->
+        <div id="reference-materials" class="lesson-content">
+            <h4>Reference Materials</h4>
+            <p>This section contains reference materials for Algebra.</p>
+            <button onclick="backToAlgebra()">Back</button>
+        </div>
+
+        <!-- Notes Section -->
+        <div id="notes" class="lesson-content">
+            <h4>Chú thích</h4>
+            <textarea placeholder="Write your notes here..."></textarea>
+            <button onclick="backToAlgebra()">Back</button>
+        </div>
+
+        <!-- Calculus Content with sub-sections -->
+        <div id="calculus" class="content">
+            <h3>Calculus</h3>
+            <div class="lesson-menu">
+                <div class="lesson-item" onclick="showLessonContent('calculus-exercises')">Bài tập</div>
+                <div class="lesson-item" onclick="showLessonContent('calculus-lecture')">Bài giảng</div>
+                <div class="lesson-item" onclick="showLessonContent('file-sharing-calculus')">Chia sẻ tài liệu</div>
+                <div class="lesson-item" onclick="showLessonContent('discussion-calculus')">Thảo luận</div>
+                <div class="lesson-item" onclick="showLessonContent('reference-materials-calculus')">Tài liệu tham khảo</div>
+                <div class="lesson-item" onclick="showLessonContent('notes-calculus')">Chú thích</div>
+            </div>
+        </div>
+
+        <!-- Calculus Exercises -->
+        <div id="calculus-exercises" class="lesson-content">
+            <h4>Calculus Exercises</h4>
+            <p>This section contains exercises for Calculus. Practice problems and solutions go here.</p>
+            <button onclick="backToCalculus()">Back</button>
+        </div>
+
+        <!-- Calculus Lecture -->
+        <div id="calculus-lecture" class="lesson-content">
+            <h4>Calculus Lecture</h4>
+            <p>This section contains lecture notes for Calculus.</p>
+            <button onclick="backToCalculus()">Back</button>
+        </div>
+
+        <!-- File Sharing Section for Calculus -->
+        <div id="file-sharing-calculus" class="lesson-content">
+            <h4>File Sharing</h4>
+            <p>This section allows users to upload and share files related to Calculus.</p>
+            <button onclick="backToCalculus()">Back</button>
+        </div>
+
+        <!-- Discussion Section for Calculus -->
+        <div id="discussion-calculus" class="lesson-content">
+            <h4>Thảo luận</h4>
+            <input type="text" id="comment-input-calculus" placeholder="Enter your comment here" />
+            <button onclick="addCommentCalculus()">Post</button>
+            <div class="discussion-section">
+                <h5>Comments</h5>
+                <div class="comment-item">No comments yet.</div>
+            </div>
+            <button onclick="backToCalculus()">Back</button>
+        </div>
+
+        <!-- Reference Materials Section for Calculus -->
+        <div id="reference-materials-calculus" class="lesson-content">
+            <h4>Reference Materials</h4>
+            <p>This section contains reference materials for Calculus.</p>
+            <button onclick="backToCalculus()">Back</button>
+        </div>
+
+        <!-- Notes Section for Calculus -->
+        <div id="notes-calculus" class="lesson-content">
+            <h4>Chú thích</h4>
+            <textarea placeholder="Write your notes here..."></textarea>
+            <button onclick="backToCalculus()">Back</button>
+        </div>
+        <button onclick="backToMainMenu()">Back to Subjects</button>
+    </div>
+    
+    <!-- Chemistry Section -->
+<div id="chemistry-section" class="section">
+    <h2>Chemistry Documents</h2>
+    <div class="tabs">
+        <div class="tab-item active" onclick="showContent('organic-chemistry', this)">Lesson 1: Organic Chemistry</div>
+        <div class="tab-item" onclick="showContent('inorganic-chemistry', this)">Lesson 2: Inorganic Chemistry</div>
+    </div>
+
+    <!-- Organic Chemistry Content with sub-sections -->
+    <div id="organic-chemistry" class="content active">
+        <h3>Organic Chemistry</h3>
+        <div class="lesson-menu">
+            <div class="lesson-item" onclick="showLessonContent('organic-chemistry-exercises')">Bài tập</div>
+            <div class="lesson-item" onclick="showLessonContent('organic-chemistry-lecture')">Bài giảng</div>
+            <div class="lesson-item" onclick="showLessonContent('file-sharing-organic')">Chia sẻ tài liệu</div>
+            <div class="lesson-item" onclick="showLessonContent('discussion-organic')">Thảo luận</div>
+            <div class="lesson-item" onclick="showLessonContent('reference-materials-organic')">Tài liệu tham khảo</div>
+            <div class="lesson-item" onclick="showLessonContent('notes-organic')">Chú thích</div>
+        </div>
+    </div>
+
+    <!-- Organic Chemistry Exercises -->
+    <div id="organic-chemistry-exercises" class="lesson-content">
+        <h4>Organic Chemistry Exercises</h4>
+        <p>This section contains exercises for Organic Chemistry. Practice problems and solutions go here.</p>
+        <button onclick="backToOrganicChemistry()">Back</button>
+    </div>
+
+    <!-- Organic Chemistry Lecture -->
+    <div id="organic-chemistry-lecture" class="lesson-content">
+        <h4>Organic Chemistry Lecture</h4>
+        <p>This section contains lecture notes for Organic Chemistry.</p>
+        <button onclick="backToOrganicChemistry()">Back</button>
+    </div>
+
+    <!-- File Sharing Section for Organic Chemistry -->
+    <div id="file-sharing-organic" class="lesson-content">
+        <h4>File Sharing</h4>
+        <p>This section allows users to upload and share files related to Organic Chemistry.</p>
+        <button onclick="backToOrganicChemistry()">Back</button>
+    </div>
+
+    <!-- Discussion Section for Organic Chemistry -->
+    <div id="discussion-organic" class="lesson-content">
+        <h4>Thảo luận</h4>
+        <input type="text" id="comment-input-organic" placeholder="Enter your comment here" />
+        <button onclick="addCommentOrganic()">Post</button>
+        <div class="discussion-section">
+            <h5>Comments</h5>
+            <div class="comment-item">No comments yet.</div>
+        </div>
+        <button onclick="backToOrganicChemistry()">Back</button>
+    </div>
+
+    <!-- Reference Materials Section for Organic Chemistry -->
+    <div id="reference-materials-organic" class="lesson-content">
+        <h4>Reference Materials</h4>
+        <p>This section contains reference materials for Organic Chemistry.</p>
+        <button onclick="backToOrganicChemistry()">Back</button>
+    </div>
+
+    <!-- Notes Section for Organic Chemistry -->
+    <div id="notes-organic" class="lesson-content">
+        <h4>Chú thích</h4>
+        <textarea placeholder="Write your notes here..."></textarea>
+        <button onclick="backToOrganicChemistry()">Back</button>
+    </div>
+
+    <!-- Inorganic Chemistry Content with sub-sections -->
+    <div id="inorganic-chemistry" class="content">
+        <h3>Inorganic Chemistry</h3>
+        <div class="lesson-menu">
+            <div class="lesson-item" onclick="showLessonContent('inorganic-chemistry-exercises')">Bài tập</div>
+            <div class="lesson-item" onclick="showLessonContent('inorganic-chemistry-lecture')">Bài giảng</div>
+            <div class="lesson-item" onclick="showLessonContent('file-sharing-inorganic')">Chia sẻ tài liệu</div>
+            <div class="lesson-item" onclick="showLessonContent('discussion-inorganic')">Thảo luận</div>
+            <div class="lesson-item" onclick="showLessonContent('reference-materials-inorganic')">Tài liệu tham khảo</div>
+            <div class="lesson-item" onclick="showLessonContent('notes-inorganic')">Chú thích</div>
+        </div>
+    </div>
+
+    <!-- Inorganic Chemistry Exercises -->
+    <div id="inorganic-chemistry-exercises" class="lesson-content">
+        <h4>Inorganic Chemistry Exercises</h4>
+        <p>This section contains exercises for Inorganic Chemistry. Practice problems and solutions go here.</p>
+        <button onclick="backToInorganicChemistry()">Back</button>
+    </div>
+
+    <!-- Inorganic Chemistry Lecture -->
+    <div id="inorganic-chemistry-lecture" class="lesson-content">
+        <h4>Inorganic Chemistry Lecture</h4>
+        <p>This section contains lecture notes for Inorganic Chemistry.</p>
+        <button onclick="backToInorganicChemistry()">Back</button>
+    </div>
+
+    <!-- File Sharing Section for Inorganic Chemistry -->
+    <div id="file-sharing-inorganic" class="lesson-content">
+        <h4>File Sharing</h4>
+        <p>This section allows users to upload and share files related to Inorganic Chemistry.</p>
+        <button onclick="backToInorganicChemistry()">Back</button>
+    </div>
+
+    <!-- Discussion Section for Inorganic Chemistry -->
+    <div id="discussion-inorganic" class="lesson-content">
+        <h4>Thảo luận</h4>
+        <input type="text" id="comment-input-inorganic" placeholder="Enter your comment here" />
+        <button onclick="addCommentInorganic()">Post</button>
+        <div class="discussion-section">
+            <h5>Comments</h5>
+            <div class="comment-item">No comments yet.</div>
+        </div>
+        <button onclick="backToInorganicChemistry()">Back</button>
+    </div>
+
+    <!-- Reference Materials Section for Inorganic Chemistry -->
+    <div id="reference-materials-inorganic" class="lesson-content">
+        <h4>Reference Materials</h4>
+        <p>This section contains reference materials for Inorganic Chemistry.</p>
+        <button onclick="backToInorganicChemistry()">Back</button>
+    </div>
+
+    <!-- Notes Section for Inorganic Chemistry -->
+    <div id="notes-inorganic" class="lesson-content">
+        <h4>Chú thích</h4>
+        <textarea placeholder="Write your notes here..."></textarea>
+        <button onclick="backToInorganicChemistry()">Back</button>
+    </div>
+
+    <button onclick="backToMainMenu()">Back to Subjects</button>
+</div>
+
+	<!-- Physics Section -->
+<div id="physics-section" class="section">
+    <h2>Physics Documents</h2>
+    <div class="tabs">
+        <div class="tab-item active" onclick="showContent('mechanics', this)">Lesson 1: Mechanics</div>
+        <div class="tab-item" onclick="showContent('electromagnetism', this)">Lesson 2: Electromagnetism</div>
+    </div>
+
+    <!-- Mechanics Content with sub-sections -->
+    <div id="mechanics" class="content active">
+        <h3>Mechanics</h3>
+        <div class="lesson-menu">
+            <div class="lesson-item" onclick="showLessonContent('mechanics-exercises')">Bài tập</div>
+            <div class="lesson-item" onclick="showLessonContent('mechanics-lecture')">Bài giảng</div>
+            <div class="lesson-item" onclick="showLessonContent('file-sharing-mechanics')">Chia sẻ tài liệu</div>
+            <div class="lesson-item" onclick="showLessonContent('discussion-mechanics')">Thảo luận</div>
+            <div class="lesson-item" onclick="showLessonContent('reference-materials-mechanics')">Tài liệu tham khảo</div>
+            <div class="lesson-item" onclick="showLessonContent('notes-mechanics')">Chú thích</div>
+        </div>
+    </div>
+
+    <!-- Mechanics Exercises -->
+    <div id="mechanics-exercises" class="lesson-content">
+        <h4>Mechanics Exercises</h4>
+        <p>This section contains exercises for Mechanics. Practice problems and solutions go here.</p>
+        <button onclick="backToMechanics()">Back</button>
+    </div>
+
+    <!-- Mechanics Lecture -->
+    <div id="mechanics-lecture" class="lesson-content">
+        <h4>Mechanics Lecture</h4>
+        <p>This section contains lecture notes for Mechanics.</p>
+        <button onclick="backToMechanics()">Back</button>
+    </div>
+
+    <!-- File Sharing Section for Mechanics -->
+    <div id="file-sharing-mechanics" class="lesson-content">
+        <h4>File Sharing</h4>
+        <p>This section allows users to upload and share files related to Mechanics.</p>
+        <button onclick="backToMechanics()">Back</button>
+    </div>
+
+    <!-- Discussion Section for Mechanics -->
+    <div id="discussion-mechanics" class="lesson-content">
+        <h4>Thảo luận</h4>
+        <input type="text" id="comment-input-mechanics" placeholder="Enter your comment here" />
+        <button onclick="addCommentMechanics()">Post</button>
+        <div class="discussion-section">
+            <h5>Comments</h5>
+            <div class="comment-item">No comments yet.</div>
+        </div>
+        <button onclick="backToMechanics()">Back</button>
+    </div>
+
+    <!-- Reference Materials Section for Mechanics -->
+    <div id="reference-materials-mechanics" class="lesson-content">
+        <h4>Reference Materials</h4>
+        <p>This section contains reference materials for Mechanics.</p>
+        <button onclick="backToMechanics()">Back</button>
+    </div>
+
+    <!-- Notes Section for Mechanics -->
+    <div id="notes-mechanics" class="lesson-content">
+        <h4>Chú thích</h4>
+        <textarea placeholder="Write your notes here..."></textarea>
+        <button onclick="backToMechanics()">Back</button>
+    </div>
+
+    <!-- Electromagnetism Content with sub-sections -->
+    <div id="electromagnetism" class="content">
+        <h3>Electromagnetism</h3>
+        <div class="lesson-menu">
+            <div class="lesson-item" onclick="showLessonContent('electromagnetism-exercises')">Bài tập</div>
+            <div class="lesson-item" onclick="showLessonContent('electromagnetism-lecture')">Bài giảng</div>
+            <div class="lesson-item" onclick="showLessonContent('file-sharing-electromagnetism')">Chia sẻ tài liệu</div>
+            <div class="lesson-item" onclick="showLessonContent('discussion-electromagnetism')">Thảo luận</div>
+            <div class="lesson-item" onclick="showLessonContent('reference-materials-electromagnetism')">Tài liệu tham khảo</div>
+            <div class="lesson-item" onclick="showLessonContent('notes-electromagnetism')">Chú thích</div>
+        </div>
+    </div>
+
+    <!-- Electromagnetism Exercises -->
+    <div id="electromagnetism-exercises" class="lesson-content">
+        <h4>Electromagnetism Exercises</h4>
+        <p>This section contains exercises for Electromagnetism. Practice problems and solutions go here.</p>
+        <button onclick="backToElectromagnetism()">Back</button>
+    </div>
+
+    <!-- Electromagnetism Lecture -->
+    <div id="electromagnetism-lecture" class="lesson-content">
+        <h4>Electromagnetism Lecture</h4>
+        <p>This section contains lecture notes for Electromagnetism.</p>
+        <button onclick="backToElectromagnetism()">Back</button>
+    </div>
+
+    <!-- File Sharing Section for Electromagnetism -->
+    <div id="file-sharing-electromagnetism" class="lesson-content">
+        <h4>File Sharing</h4>
+        <p>This section allows users to upload and share files related to Electromagnetism.</p>
+        <button onclick="backToElectromagnetism()">Back</button>
+    </div>
+
+    <!-- Discussion Section for Electromagnetism -->
+    <div id="discussion-electromagnetism" class="lesson-content">
+        <h4>Thảo luận</h4>
+        <input type="text" id="comment-input-electromagnetism" placeholder="Enter your comment here" />
+        <button onclick="addCommentElectromagnetism()">Post</button>
+        <div class="discussion-section">
+            <h5>Comments</h5>
+            <div class="comment-item">No comments yet.</div>
+        </div>
+        <button onclick="backToElectromagnetism()">Back</button>
+    </div>
+
+    <!-- Reference Materials Section for Electromagnetism -->
+    <div id="reference-materials-electromagnetism" class="lesson-content">
+        <h4>Reference Materials</h4>
+        <p>This section contains reference materials for Electromagnetism.</p>
+        <button onclick="backToElectromagnetism()">Back</button>
+    </div>
+
+    <!-- Notes Section for Electromagnetism -->
+    <div id="notes-electromagnetism" class="lesson-content">
+        <h4>Chú thích</h4>
+        <textarea placeholder="Write your notes here..."></textarea>
+        <button onclick="backToElectromagnetism()">Back</button>
+    </div>
+
+    <button onclick="backToMainMenu()">Back to Subjects</button>
+</div>
+
+
+<!-- Literature Section -->
+<div id="literature-section" class="section">
+    <h2>Literature Documents</h2>
+    <div class="tabs">
+        <div class="tab-item active" onclick="showContent('modern-literature', this)">Lesson 1: Modern Literature</div>
+        <div class="tab-item" onclick="showContent('classical-literature', this)">Lesson 2: Classical Literature</div>
+    </div>
+
+    <!-- Modern Literature Content with sub-sections -->
+    <div id="modern-literature" class="content active">
+        <h3>Modern Literature</h3>
+        <div class="lesson-menu">
+            <div class="lesson-item" onclick="showLessonContent('modern-literature-exercises')">Bài tập</div>
+            <div class="lesson-item" onclick="showLessonContent('modern-literature-lecture')">Bài giảng</div>
+            <div class="lesson-item" onclick="showLessonContent('file-sharing-modern')">Chia sẻ tài liệu</div>
+            <div class="lesson-item" onclick="showLessonContent('discussion-modern')">Thảo luận</div>
+            <div class="lesson-item" onclick="showLessonContent('reference-materials-modern')">Tài liệu tham khảo</div>
+            <div class="lesson-item" onclick="showLessonContent('notes-modern')">Chú thích</div>
+        </div>
+    </div>
+
+    <!-- Modern Literature Exercises -->
+    <div id="modern-literature-exercises" class="lesson-content">
+        <h4>Modern Literature Exercises</h4>
+        <p>This section contains exercises for Modern Literature. Practice problems and solutions go here.</p>
+        <button onclick="backToModernLiterature()">Back</button>
+    </div>
+
+    <!-- Modern Literature Lecture -->
+    <div id="modern-literature-lecture" class="lesson-content">
+        <h4>Modern Literature Lecture</h4>
+        <p>This section contains lecture notes for Modern Literature.</p>
+        <button onclick="backToModernLiterature()">Back</button>
+    </div>
+
+    <!-- File Sharing Section for Modern Literature -->
+    <div id="file-sharing-modern" class="lesson-content">
+        <h4>File Sharing</h4>
+        <p>This section allows users to upload and share files related to Modern Literature.</p>
+        <button onclick="backToModernLiterature()">Back</button>
+    </div>
+
+    <!-- Discussion Section for Modern Literature -->
+    <div id="discussion-modern" class="lesson-content">
+        <h4>Thảo luận</h4>
+        <input type="text" id="comment-input-modern" placeholder="Enter your comment here" />
+        <button onclick="addCommentModern()">Post</button>
+        <div class="discussion-section">
+            <h5>Comments</h5>
+            <div class="comment-item">No comments yet.</div>
+        </div>
+        <button onclick="backToModernLiterature()">Back</button>
+    </div>
+
+    <!-- Reference Materials Section for Modern Literature -->
+    <div id="reference-materials-modern" class="lesson-content">
+        <h4>Reference Materials</h4>
+        <p>This section contains reference materials for Modern Literature.</p>
+        <button onclick="backToModernLiterature()">Back</button>
+    </div>
+
+    <!-- Notes Section for Modern Literature -->
+    <div id="notes-modern" class="lesson-content">
+        <h4>Chú thích</h4>
+        <textarea placeholder="Write your notes here..."></textarea>
+        <button onclick="backToModernLiterature()">Back</button>
+    </div>
+
+    <!-- Classical Literature Content with sub-sections -->
+    <div id="classical-literature" class="content">
+        <h3>Classical Literature</h3>
+        <div class="lesson-menu">
+            <div class="lesson-item" onclick="showLessonContent('classical-literature-exercises')">Bài tập</div>
+            <div class="lesson-item" onclick="showLessonContent('classical-literature-lecture')">Bài giảng</div>
+            <div class="lesson-item" onclick="showLessonContent('file-sharing-classical')">Chia sẻ tài liệu</div>
+            <div class="lesson-item" onclick="showLessonContent('discussion-classical')">Thảo luận</div>
+            <div class="lesson-item" onclick="showLessonContent('reference-materials-classical')">Tài liệu tham khảo</div>
+            <div class="lesson-item" onclick="showLessonContent('notes-classical')">Chú thích</div>
+        </div>
+    </div>
+
+    <!-- Classical Literature Exercises -->
+    <div id="classical-literature-exercises" class="lesson-content">
+        <h4>Classical Literature Exercises</h4>
+        <p>This section contains exercises for Classical Literature. Practice problems and solutions go here.</p>
+        <button onclick="backToClassicalLiterature()">Back</button>
+    </div>
+
+    <!-- Classical Literature Lecture -->
+    <div id="classical-literature-lecture" class="lesson-content">
+        <h4>Classical Literature Lecture</h4>
+        <p>This section contains lecture notes for Classical Literature.</p>
+        <button onclick="backToClassicalLiterature()">Back</button>
+    </div>
+
+    <!-- File Sharing Section for Classical Literature -->
+    <div id="file-sharing-classical" class="lesson-content">
+        <h4>File Sharing</h4>
+        <p>This section allows users to upload and share files related to Classical Literature.</p>
+        <button onclick="backToClassicalLiterature()">Back</button>
+    </div>
+
+    <!-- Discussion Section for Classical Literature -->
+    <div id="discussion-classical" class="lesson-content">
+        <h4>Thảo luận</h4>
+        <input type="text" id="comment-input-classical" placeholder="Enter your comment here" />
+        <button onclick="addCommentClassical()">Post</button>
+        <div class="discussion-section">
+            <h5>Comments</h5>
+            <div class="comment-item">No comments yet.</div>
+        </div>
+        <button onclick="backToClassicalLiterature()">Back</button>
+    </div>
+
+    <!-- Reference Materials Section for Classical Literature -->
+    <div id="reference-materials-classical" class="lesson-content">
+        <h4>Reference Materials</h4>
+        <p>This section contains reference materials for Classical Literature.</p>
+        <button onclick="backToClassicalLiterature()">Back</button>
+    </div>
+
+    <!-- Notes Section for Classical Literature -->
+    <div id="notes-classical" class="lesson-content">
+        <h4>Chú thích</h4>
+        <textarea placeholder="Write your notes here..."></textarea>
+        <button onclick="backToClassicalLiterature()">Back</button>
+    </div>
+
+    <button onclick="backToMainMenu()">Back to Subjects</button>
+</div>
+
+<!-- History Section -->
+<div id="history-section" class="section">
+    <h2>History Documents</h2>
+    <div class="tabs">
+        <div class="tab-item active" onclick="showContent('ancient-history', this)">Lesson 1: Ancient History</div>
+        <div class="tab-item" onclick="showContent('modern-history', this)">Lesson 2: Modern History</div>
+    </div>
+
+    <!-- Ancient History Content with sub-sections -->
+    <div id="ancient-history" class="content active">
+        <h3>Ancient History</h3>
+        <div class="lesson-menu">
+            <div class="lesson-item" onclick="showLessonContent('ancient-history-exercises')">Bài tập</div>
+            <div class="lesson-item" onclick="showLessonContent('ancient-history-lecture')">Bài giảng</div>
+            <div class="lesson-item" onclick="showLessonContent('file-sharing-ancient')">Chia sẻ tài liệu</div>
+            <div class="lesson-item" onclick="showLessonContent('discussion-ancient')">Thảo luận</div>
+            <div class="lesson-item" onclick="showLessonContent('reference-materials-ancient')">Tài liệu tham khảo</div>
+            <div class="lesson-item" onclick="showLessonContent('notes-ancient')">Chú thích</div>
+        </div>
+    </div>
+
+    <!-- Ancient History Exercises -->
+    <div id="ancient-history-exercises" class="lesson-content">
+        <h4>Ancient History Exercises</h4>
+        <p>This section contains exercises for Ancient History. Practice problems and solutions go here.</p>
+        <button onclick="backToAncientHistory()">Back</button>
+    </div>
+
+    <!-- Ancient History Lecture -->
+    <div id="ancient-history-lecture" class="lesson-content">
+        <h4>Ancient History Lecture</h4>
+        <p>This section contains lecture notes for Ancient History.</p>
+        <button onclick="backToAncientHistory()">Back</button>
+    </div>
+
+    <!-- File Sharing Section for Ancient History -->
+    <div id="file-sharing-ancient" class="lesson-content">
+        <h4>File Sharing</h4>
+        <p>This section allows users to upload and share files related to Ancient History.</p>
+        <button onclick="backToAncientHistory()">Back</button>
+    </div>
+
+    <!-- Discussion Section for Ancient History -->
+    <div id="discussion-ancient" class="lesson-content">
+        <h4>Thảo luận</h4>
+        <input type="text" id="comment-input-ancient" placeholder="Enter your comment here" />
+        <button onclick="addCommentAncient()">Post</button>
+        <div class="discussion-section">
+            <h5>Comments</h5>
+            <div class="comment-item">No comments yet.</div>
+        </div>
+        <button onclick="backToAncientHistory()">Back</button>
+    </div>
+
+    <!-- Reference Materials Section for Ancient History -->
+    <div id="reference-materials-ancient" class="lesson-content">
+        <h4>Reference Materials</h4>
+        <p>This section contains reference materials for Ancient History.</p>
+        <button onclick="backToAncientHistory()">Back</button>
+    </div>
+
+    <!-- Notes Section for Ancient History -->
+    <div id="notes-ancient" class="lesson-content">
+        <h4>Chú thích</h4>
+        <textarea placeholder="Write your notes here..."></textarea>
+        <button onclick="backToAncientHistory()">Back</button>
+    </div>
+
+    <!-- Modern History Content with sub-sections -->
+    <div id="modern-history" class="content">
+        <h3>Modern History</h3>
+        <div class="lesson-menu">
+            <div class="lesson-item" onclick="showLessonContent('modern-history-exercises')">Bài tập</div>
+            <div class="lesson-item" onclick="showLessonContent('modern-history-lecture')">Bài giảng</div>
+            <div class="lesson-item" onclick="showLessonContent('file-sharing-modern-history')">Chia sẻ tài liệu</div>
+            <div class="lesson-item" onclick="showLessonContent('discussion-modern-history')">Thảo luận</div>
+            <div class="lesson-item" onclick="showLessonContent('reference-materials-modern-history')">Tài liệu tham khảo</div>
+            <div class="lesson-item" onclick="showLessonContent('notes-modern-history')">Chú thích</div>
+        </div>
+    </div>
+
+    <!-- Modern History Exercises -->
+    <div id="modern-history-exercises" class="lesson-content">
+        <h4>Modern History Exercises</h4>
+        <p>This section contains exercises for Modern History. Practice problems and solutions go here.</p>
+        <button onclick="backToModernHistory()">Back</button>
+    </div>
+
+    <!-- Modern History Lecture -->
+    <div id="modern-history-lecture" class="lesson-content">
+        <h4>Modern History Lecture</h4>
+        <p>This section contains lecture notes for Modern History.</p>
+        <button onclick="backToModernHistory()">Back</button>
+    </div>
+
+    <!-- File Sharing Section for Modern History -->
+    <div id="file-sharing-modern-history" class="lesson-content">
+        <h4>File Sharing</h4>
+        <p>This section allows users to upload and share files related to Modern History.</p>
+        <button onclick="backToModernHistory()">Back</button>
+    </div>
+
+    <!-- Discussion Section for Modern History -->
+    <div id="discussion-modern-history" class="lesson-content">
+        <h4>Thảo luận</h4>
+        <input type="text" id="comment-input-modern-history" placeholder="Enter your comment here" />
+        <button onclick="addCommentModernHistory()">Post</button>
+        <div class="discussion-section">
+            <h5>Comments</h5>
+            <div class="comment-item">No comments yet.</div>
+        </div>
+        <button onclick="backToModernHistory()">Back</button>
+    </div>
+
+    <!-- Reference Materials Section for Modern History -->
+    <div id="reference-materials-modern-history" class="lesson-content">
+        <h4>Reference Materials</h4>
+        <p>This section contains reference materials for Modern History.</p>
+        <button onclick="backToModernHistory()">Back</button>
+    </div>
+
+    <!-- Notes Section for Modern History -->
+    <div id="notes-modern-history" class="lesson-content">
+        <h4>Chú thích</h4>
+        <textarea placeholder="Write your notes here..."></textarea>
+        <button onclick="backToModernHistory()">Back</button>
+    </div>
+
+    <button onclick="backToMainMenu()">Back to Subjects</button>
+</div>
+
+
+<!-- English Section -->
+<div id="english-section" class="section">
+    <h2>English Documents</h2>
+    <div class="tabs">
+        <div class="tab-item active" onclick="showContent('grammar', this)">Lesson 1: Grammar</div>
+        <div class="tab-item" onclick="showContent('vocabulary', this)">Lesson 2: Vocabulary</div>
+    </div>
+
+    <!-- Grammar Content with sub-sections -->
+    <div id="grammar" class="content active">
+        <h3>Grammar</h3>
+        <div class="lesson-menu">
+            <div class="lesson-item" onclick="showLessonContent('grammar-exercises')">Bài tập</div>
+            <div class="lesson-item" onclick="showLessonContent('grammar-lecture')">Bài giảng</div>
+            <div class="lesson-item" onclick="showLessonContent('file-sharing-grammar')">Chia sẻ tài liệu</div>
+            <div class="lesson-item" onclick="showLessonContent('discussion-grammar')">Thảo luận</div>
+            <div class="lesson-item" onclick="showLessonContent('reference-materials-grammar')">Tài liệu tham khảo</div>
+            <div class="lesson-item" onclick="showLessonContent('notes-grammar')">Chú thích</div>
+        </div>
+    </div>
+
+    <!-- Grammar Exercises -->
+    <div id="grammar-exercises" class="lesson-content">
+        <h4>Grammar Exercises</h4>
+        <p>This section contains exercises for Grammar. Practice problems and solutions go here.</p>
+        <button onclick="backToGrammar()">Back</button>
+    </div>
+
+    <!-- Grammar Lecture -->
+    <div id="grammar-lecture" class="lesson-content">
+        <h4>Grammar Lecture</h4>
+        <p>This section contains lecture notes for Grammar.</p>
+        <button onclick="backToGrammar()">Back</button>
+    </div>
+
+    <!-- File Sharing Section for Grammar -->
+    <div id="file-sharing-grammar" class="lesson-content">
+        <h4>File Sharing</h4>
+        <p>This section allows users to upload and share files related to Grammar.</p>
+        <button onclick="backToGrammar()">Back</button>
+    </div>
+
+    <!-- Discussion Section for Grammar -->
+    <div id="discussion-grammar" class="lesson-content">
+        <h4>Thảo luận</h4>
+        <input type="text" id="comment-input-grammar" placeholder="Enter your comment here" />
+        <button onclick="addCommentGrammar()">Post</button>
+        <div class="discussion-section">
+            <h5>Comments</h5>
+            <div class="comment-item">No comments yet.</div>
+        </div>
+        <button onclick="backToGrammar()">Back</button>
+    </div>
+
+    <!-- Reference Materials Section for Grammar -->
+    <div id="reference-materials-grammar" class="lesson-content">
+        <h4>Reference Materials</h4>
+        <p>This section contains reference materials for Grammar.</p>
+        <button onclick="backToGrammar()">Back</button>
+    </div>
+
+    <!-- Notes Section for Grammar -->
+    <div id="notes-grammar" class="lesson-content">
+        <h4>Chú thích</h4>
+        <textarea placeholder="Write your notes here..."></textarea>
+        <button onclick="backToGrammar()">Back</button>
+    </div>
+
+    <!-- Vocabulary Content with sub-sections -->
+    <div id="vocabulary" class="content">
+        <h3>Vocabulary</h3>
+        <div class="lesson-menu">
+            <div class="lesson-item" onclick="showLessonContent('vocabulary-exercises')">Bài tập</div>
+            <div class="lesson-item" onclick="showLessonContent('vocabulary-lecture')">Bài giảng</div>
+            <div class="lesson-item" onclick="showLessonContent('file-sharing-vocabulary')">Chia sẻ tài liệu</div>
+            <div class="lesson-item" onclick="showLessonContent('discussion-vocabulary')">Thảo luận</div>
+            <div class="lesson-item" onclick="showLessonContent('reference-materials-vocabulary')">Tài liệu tham khảo</div>
+            <div class="lesson-item" onclick="showLessonContent('notes-vocabulary')">Chú thích</div>
+        </div>
+    </div>
+
+    <!-- Vocabulary Exercises -->
+    <div id="vocabulary-exercises" class="lesson-content">
+        <h4>Vocabulary Exercises</h4>
+        <p>This section contains exercises for Vocabulary. Practice problems and solutions go here.</p>
+        <button onclick="backToVocabulary()">Back</button>
+    </div>
+
+    <!-- Vocabulary Lecture -->
+    <div id="vocabulary-lecture" class="lesson-content">
+        <h4>Vocabulary Lecture</h4>
+        <p>This section contains lecture notes for Vocabulary.</p>
+        <button onclick="backToVocabulary()">Back</button>
+    </div>
+
+    <!-- File Sharing Section for Vocabulary -->
+    <div id="file-sharing-vocabulary" class="lesson-content">
+        <h4>File Sharing</h4>
+        <p>This section allows users to upload and share files related to Vocabulary.</p>
+        <button onclick="backToVocabulary()">Back</button>
+    </div>
+
+    <!-- Discussion Section for Vocabulary -->
+    <div id="discussion-vocabulary" class="lesson-content">
+        <h4>Thảo luận</h4>
+        <input type="text" id="comment-input-vocabulary" placeholder="Enter your comment here" />
+        <button onclick="addCommentVocabulary()">Post</button>
+        <div class="discussion-section">
+            <h5>Comments</h5>
+            <div class="comment-item">No comments yet.</div>
+        </div>
+        <button onclick="backToVocabulary()">Back</button>
+    </div>
+
+    <!-- Reference Materials Section for Vocabulary -->
+    <div id="reference-materials-vocabulary" class="lesson-content">
+        <h4>Reference Materials</h4>
+        <p>This section contains reference materials for Vocabulary.</p>
+        <button onclick="backToVocabulary()">Back</button>
+    </div>
+
+    <!-- Notes Section for Vocabulary -->
+    <div id="notes-vocabulary" class="lesson-content">
+        <h4>Chú thích</h4>
+        <textarea placeholder="Write your notes here..."></textarea>
+        <button onclick="backToVocabulary()">Back</button>
+    </div>
+
+    <button onclick="backToMainMenu()">Back to Subjects</button>
+</div>
+
+
+<!-- Biology Section -->
+<div id="biology-section" class="section">
+    <h2>Biology Documents</h2>
+    <div class="tabs">
+        <div class="tab-item active" onclick="showContent('cell-biology', this)">Lesson 1: Cell Biology</div>
+        <div class="tab-item" onclick="showContent('genetics', this)">Lesson 2: Genetics</div>
+    </div>
+
+    <!-- Cell Biology Content with sub-sections -->
+    <div id="cell-biology" class="content active">
+        <h3>Cell Biology</h3>
+        <div class="lesson-menu">
+            <div class="lesson-item" onclick="showLessonContent('cell-biology-exercises')">Bài tập</div>
+            <div class="lesson-item" onclick="showLessonContent('cell-biology-lecture')">Bài giảng</div>
+            <div class="lesson-item" onclick="showLessonContent('file-sharing-cell-biology')">Chia sẻ tài liệu</div>
+            <div class="lesson-item" onclick="showLessonContent('discussion-cell-biology')">Thảo luận</div>
+            <div class="lesson-item" onclick="showLessonContent('reference-materials-cell-biology')">Tài liệu tham khảo</div>
+            <div class="lesson-item" onclick="showLessonContent('notes-cell-biology')">Chú thích</div>
+        </div>
+    </div>
+
+    <!-- Cell Biology Exercises -->
+    <div id="cell-biology-exercises" class="lesson-content">
+        <h4>Cell Biology Exercises</h4>
+        <p>This section contains exercises for Cell Biology. Practice problems and solutions go here.</p>
+        <button onclick="backToCellBiology()">Back</button>
+    </div>
+
+    <!-- Cell Biology Lecture -->
+    <div id="cell-biology-lecture" class="lesson-content">
+        <h4>Cell Biology Lecture</h4>
+        <p>This section contains lecture notes for Cell Biology.</p>
+        <button onclick="backToCellBiology()">Back</button>
+    </div>
+
+    <!-- File Sharing Section for Cell Biology -->
+    <div id="file-sharing-cell-biology" class="lesson-content">
+        <h4>File Sharing</h4>
+        <p>This section allows users to upload and share files related to Cell Biology.</p>
+        <button onclick="backToCellBiology()">Back</button>
+    </div>
+
+    <!-- Discussion Section for Cell Biology -->
+    <div id="discussion-cell-biology" class="lesson-content">
+        <h4>Thảo luận</h4>
+        <input type="text" id="comment-input-cell-biology" placeholder="Enter your comment here" />
+        <button onclick="addCommentCellBiology()">Post</button>
+        <div class="discussion-section">
+            <h5>Comments</h5>
+            <div class="comment-item">No comments yet.</div>
+        </div>
+        <button onclick="backToCellBiology()">Back</button>
+    </div>
+
+    <!-- Reference Materials Section for Cell Biology -->
+    <div id="reference-materials-cell-biology" class="lesson-content">
+        <h4>Reference Materials</h4>
+        <p>This section contains reference materials for Cell Biology.</p>
+        <button onclick="backToCellBiology()">Back</button>
+    </div>
+
+    <!-- Notes Section for Cell Biology -->
+    <div id="notes-cell-biology" class="lesson-content">
+        <h4>Chú thích</h4>
+        <textarea placeholder="Write your notes here..."></textarea>
+        <button onclick="backToCellBiology()">Back</button>
+    </div>
+
+    <!-- Genetics Content with sub-sections -->
+    <div id="genetics" class="content">
+        <h3>Genetics</h3>
+        <div class="lesson-menu">
+            <div class="lesson-item" onclick="showLessonContent('genetics-exercises')">Bài tập</div>
+            <div class="lesson-item" onclick="showLessonContent('genetics-lecture')">Bài giảng</div>
+            <div class="lesson-item" onclick="showLessonContent('file-sharing-genetics')">Chia sẻ tài liệu</div>
+            <div class="lesson-item" onclick="showLessonContent('discussion-genetics')">Thảo luận</div>
+            <div class="lesson-item" onclick="showLessonContent('reference-materials-genetics')">Tài liệu tham khảo</div>
+            <div class="lesson-item" onclick="showLessonContent('notes-genetics')">Chú thích</div>
+        </div>
+    </div>
+
+    <!-- Genetics Exercises -->
+    <div id="genetics-exercises" class="lesson-content">
+        <h4>Genetics Exercises</h4>
+        <p>This section contains exercises for Genetics. Practice problems and solutions go here.</p>
+        <button onclick="backToGenetics()">Back</button>
+    </div>
+
+    <!-- Genetics Lecture -->
+    <div id="genetics-lecture" class="lesson-content">
+        <h4>Genetics Lecture</h4>
+        <p>This section contains lecture notes for Genetics.</p>
+        <button onclick="backToGenetics()">Back</button>
+    </div>
+
+    <!-- File Sharing Section for Genetics -->
+    <div id="file-sharing-genetics" class="lesson-content">
+        <h4>File Sharing</h4>
+        <p>This section allows users to upload and share files related to Genetics.</p>
+        <button onclick="backToGenetics()">Back</button>
+    </div>
+
+    <!-- Discussion Section for Genetics -->
+    <div id="discussion-genetics" class="lesson-content">
+        <h4>Thảo luận</h4>
+        <input type="text" id="comment-input-genetics" placeholder="Enter your comment here" />
+        <button onclick="addCommentGenetics()">Post</button>
+        <div class="discussion-section">
+            <h5>Comments</h5>
+            <div class="comment-item">No comments yet.</div>
+        </div>
+        <button onclick="backToGenetics()">Back</button>
+    </div>
+
+    <!-- Reference Materials Section for Genetics -->
+    <div id="reference-materials-genetics" class="lesson-content">
+        <h4>Reference Materials</h4>
+        <p>This section contains reference materials for Genetics.</p>
+        <button onclick="backToGenetics()">Back</button>
+    </div>
+
+    <!-- Notes Section for Genetics -->
+    <div id="notes-genetics" class="lesson-content">
+        <h4>Chú thích</h4>
+        <textarea placeholder="Write your notes here..."></textarea>
+        <button onclick="backToGenetics()">Back</button>
+    </div>
+
+    <button onclick="backToMainMenu()">Back to Subjects</button>
+</div>
+
+
+<!-- Geography Section -->
+<div id="geography-section" class="section">
+    <h2>Geography Documents</h2>
+    <div class="tabs">
+        <div class="tab-item active" onclick="showContent('physical-geography', this)">Lesson 1: Physical Geography</div>
+        <div class="tab-item" onclick="showContent('human-geography', this)">Lesson 2: Human Geography</div>
+    </div>
+
+    <!-- Physical Geography Content with sub-sections -->
+    <div id="physical-geography" class="content active">
+        <h3>Physical Geography</h3>
+        <div class="lesson-menu">
+            <div class="lesson-item" onclick="showLessonContent('physical-geography-exercises')">Bài tập</div>
+            <div class="lesson-item" onclick="showLessonContent('physical-geography-lecture')">Bài giảng</div>
+            <div class="lesson-item" onclick="showLessonContent('file-sharing-physical-geography')">Chia sẻ tài liệu</div>
+            <div class="lesson-item" onclick="showLessonContent('discussion-physical-geography')">Thảo luận</div>
+            <div class="lesson-item" onclick="showLessonContent('reference-materials-physical-geography')">Tài liệu tham khảo</div>
+            <div class="lesson-item" onclick="showLessonContent('notes-physical-geography')">Chú thích</div>
+        </div>
+    </div>
+
+    <!-- Physical Geography Exercises -->
+    <div id="physical-geography-exercises" class="lesson-content">
+        <h4>Physical Geography Exercises</h4>
+        <p>This section contains exercises for Physical Geography. Practice problems and solutions go here.</p>
+        <button onclick="backToPhysicalGeography()">Back</button>
+    </div>
+
+    <!-- Physical Geography Lecture -->
+    <div id="physical-geography-lecture" class="lesson-content">
+        <h4>Physical Geography Lecture</h4>
+        <p>This section contains lecture notes for Physical Geography.</p>
+        <button onclick="backToPhysicalGeography()">Back</button>
+    </div>
+
+    <!-- File Sharing Section for Physical Geography -->
+    <div id="file-sharing-physical-geography" class="lesson-content">
+        <h4>File Sharing</h4>
+        <p>This section allows users to upload and share files related to Physical Geography.</p>
+        <button onclick="backToPhysicalGeography()">Back</button>
+    </div>
+
+    <!-- Discussion Section for Physical Geography -->
+    <div id="discussion-physical-geography" class="lesson-content">
+        <h4>Thảo luận</h4>
+        <input type="text" id="comment-input-physical-geography" placeholder="Enter your comment here" />
+        <button onclick="addCommentPhysicalGeography()">Post</button>
+        <div class="discussion-section">
+            <h5>Comments</h5>
+            <div class="comment-item">No comments yet.</div>
+        </div>
+        <button onclick="backToPhysicalGeography()">Back</button>
+    </div>
+
+    <!-- Reference Materials Section for Physical Geography -->
+    <div id="reference-materials-physical-geography" class="lesson-content">
+        <h4>Reference Materials</h4>
+        <p>This section contains reference materials for Physical Geography.</p>
+        <button onclick="backToPhysicalGeography()">Back</button>
+    </div>
+
+    <!-- Notes Section for Physical Geography -->
+    <div id="notes-physical-geography" class="lesson-content">
+        <h4>Chú thích</h4>
+        <textarea placeholder="Write your notes here..."></textarea>
+        <button onclick="backToPhysicalGeography()">Back</button>
+    </div>
+
+    <!-- Human Geography Content with sub-sections -->
+    <div id="human-geography" class="content">
+        <h3>Human Geography</h3>
+        <div class="lesson-menu">
+            <div class="lesson-item" onclick="showLessonContent('human-geography-exercises')">Bài tập</div>
+            <div class="lesson-item" onclick="showLessonContent('human-geography-lecture')">Bài giảng</div>
+            <div class="lesson-item" onclick="showLessonContent('file-sharing-human-geography')">Chia sẻ tài liệu</div>
+            <div class="lesson-item" onclick="showLessonContent('discussion-human-geography')">Thảo luận</div>
+            <div class="lesson-item" onclick="showLessonContent('reference-materials-human-geography')">Tài liệu tham khảo</div>
+            <div class="lesson-item" onclick="showLessonContent('notes-human-geography')">Chú thích</div>
+        </div>
+    </div>
+
+    <!-- Human Geography Exercises -->
+    <div id="human-geography-exercises" class="lesson-content">
+        <h4>Human Geography Exercises</h4>
+        <p>This section contains exercises for Human Geography. Practice problems and solutions go here.</p>
+        <button onclick="backToHumanGeography()">Back</button>
+    </div>
+
+    <!-- Human Geography Lecture -->
+    <div id="human-geography-lecture" class="lesson-content">
+        <h4>Human Geography Lecture</h4>
+        <p>This section contains lecture notes for Human Geography.</p>
+        <button onclick="backToHumanGeography()">Back</button>
+    </div>
+
+    <!-- File Sharing Section for Human Geography -->
+    <div id="file-sharing-human-geography" class="lesson-content">
+        <h4>File Sharing</h4>
+        <p>This section allows users to upload and share files related to Human Geography.</p>
+        <button onclick="backToHumanGeography()">Back</button>
+    </div>
+
+    <!-- Discussion Section for Human Geography -->
+    <div id="discussion-human-geography" class="lesson-content">
+        <h4>Thảo luận</h4>
+        <input type="text" id="comment-input-human-geography" placeholder="Enter your comment here" />
+        <button onclick="addCommentHumanGeography()">Post</button>
+        <div class="discussion-section">
+            <h5>Comments</h5>
+            <div class="comment-item">No comments yet.</div>
+        </div>
+        <button onclick="backToHumanGeography()">Back</button>
+    </div>
+
+    <!-- Reference Materials Section for Human Geography -->
+    <div id="reference-materials-human-geography" class="lesson-content">
+        <h4>Reference Materials</h4>
+        <p>This section contains reference materials for Human Geography.</p>
+        <button onclick="backToHumanGeography()">Back</button>
+    </div>
+
+    <!-- Notes Section for Human Geography -->
+    <div id="notes-human-geography" class="lesson-content">
+        <h4>Chú thích</h4>
+        <textarea placeholder="Write your notes here..."></textarea>
+        <button onclick="backToHumanGeography()">Back</button>
+    </div>
+
+    <button onclick="backToMainMenu()">Back to Subjects</button>
+</div>
+
+<!-- Computer Science Section -->
+<div id="computer-science-section" class="section">
+    <h2>Computer Science Documents</h2>
+    <div class="tabs">
+        <div class="tab-item active" onclick="showContent('programming-fundamentals', this)">Lesson 1: Programming Fundamentals</div>
+        <div class="tab-item" onclick="showContent('data-structures', this)">Lesson 2: Data Structures</div>
+    </div>
+
+    <!-- Programming Fundamentals Content with sub-sections -->
+    <div id="programming-fundamentals" class="content active">
+        <h3>Programming Fundamentals</h3>
+        <div class="lesson-menu">
+            <div class="lesson-item" onclick="showLessonContent('programming-fundamentals-exercises')">Bài tập</div>
+            <div class="lesson-item" onclick="showLessonContent('programming-fundamentals-lecture')">Bài giảng</div>
+            <div class="lesson-item" onclick="showLessonContent('file-sharing-programming')">Chia sẻ tài liệu</div>
+            <div class="lesson-item" onclick="showLessonContent('discussion-programming')">Thảo luận</div>
+            <div class="lesson-item" onclick="showLessonContent('reference-materials-programming')">Tài liệu tham khảo</div>
+            <div class="lesson-item" onclick="showLessonContent('notes-programming')">Chú thích</div>
+        </div>
+    </div>
+
+    <!-- Programming Fundamentals Exercises -->
+    <div id="programming-fundamentals-exercises" class="lesson-content">
+        <h4>Programming Fundamentals Exercises</h4>
+        <p>This section contains exercises for Programming Fundamentals. Practice problems and solutions go here.</p>
+        <button onclick="backToProgrammingFundamentals()">Back</button>
+    </div>
+
+    <!-- Programming Fundamentals Lecture -->
+    <div id="programming-fundamentals-lecture" class="lesson-content">
+        <h4>Programming Fundamentals Lecture</h4>
+        <p>This section contains lecture notes for Programming Fundamentals.</p>
+        <button onclick="backToProgrammingFundamentals()">Back</button>
+    </div>
+
+    <!-- File Sharing Section for Programming Fundamentals -->
+    <div id="file-sharing-programming" class="lesson-content">
+        <h4>File Sharing</h4>
+        <p>This section allows users to upload and share files related to Programming Fundamentals.</p>
+        <button onclick="backToProgrammingFundamentals()">Back</button>
+    </div>
+
+    <!-- Discussion Section for Programming Fundamentals -->
+    <div id="discussion-programming" class="lesson-content">
+        <h4>Thảo luận</h4>
+        <input type="text" id="comment-input-programming" placeholder="Enter your comment here" />
+        <button onclick="addCommentProgramming()">Post</button>
+        <div class="discussion-section">
+            <h5>Comments</h5>
+            <div class="comment-item">No comments yet.</div>
+        </div>
+        <button onclick="backToProgrammingFundamentals()">Back</button>
+    </div>
+
+    <!-- Reference Materials Section for Programming Fundamentals -->
+    <div id="reference-materials-programming" class="lesson-content">
+        <h4>Reference Materials</h4>
+        <p>This section contains reference materials for Programming Fundamentals.</p>
+        <button onclick="backToProgrammingFundamentals()">Back</button>
+    </div>
+
+    <!-- Notes Section for Programming Fundamentals -->
+    <div id="notes-programming" class="lesson-content">
+        <h4>Chú thích</h4>
+        <textarea placeholder="Write your notes here..."></textarea>
+        <button onclick="backToProgrammingFundamentals()">Back</button>
+    </div>
+
+    <!-- Data Structures Content with sub-sections -->
+    <div id="data-structures" class="content">
+        <h3>Data Structures</h3>
+        <div class="lesson-menu">
+            <div class="lesson-item" onclick="showLessonContent('data-structures-exercises')">Bài tập</div>
+            <div class="lesson-item" onclick="showLessonContent('data-structures-lecture')">Bài giảng</div>
+            <div class="lesson-item" onclick="showLessonContent('file-sharing-data-structures')">Chia sẻ tài liệu</div>
+            <div class="lesson-item" onclick="showLessonContent('discussion-data-structures')">Thảo luận</div>
+            <div class="lesson-item" onclick="showLessonContent('reference-materials-data-structures')">Tài liệu tham khảo</div>
+            <div class="lesson-item" onclick="showLessonContent('notes-data-structures')">Chú thích</div>
+        </div>
+    </div>
+
+    <!-- Data Structures Exercises -->
+    <div id="data-structures-exercises" class="lesson-content">
+        <h4>Data Structures Exercises</h4>
+        <p>This section contains exercises for Data Structures. Practice problems and solutions go here.</p>
+        <button onclick="backToDataStructures()">Back</button>
+    </div>
+
+    <!-- Data Structures Lecture -->
+    <div id="data-structures-lecture" class="lesson-content">
+        <h4>Data Structures Lecture</h4>
+        <p>This section contains lecture notes for Data Structures.</p>
+        <button onclick="backToDataStructures()">Back</button>
+    </div>
+
+    <!-- File Sharing Section for Data Structures -->
+    <div id="file-sharing-data-structures" class="lesson-content">
+        <h4>File Sharing</h4>
+        <p>This section allows users to upload and share files related to Data Structures.</p>
+        <button onclick="backToDataStructures()">Back</button>
+    </div>
+
+    <!-- Discussion Section for Data Structures -->
+    <div id="discussion-data-structures" class="lesson-content">
+        <h4>Thảo luận</h4>
+        <input type="text" id="comment-input-data-structures" placeholder="Enter your comment here" />
+        <button onclick="addCommentDataStructures()">Post</button>
+        <div class="discussion-section">
+            <h5>Comments</h5>
+            <div class="comment-item">No comments yet.</div>
+        </div>
+        <button onclick="backToDataStructures()">Back</button>
+    </div>
+
+    <!-- Reference Materials Section for Data Structures -->
+    <div id="reference-materials-data-structures" class="lesson-content">
+        <h4>Reference Materials</h4>
+        <p>This section contains reference materials for Data Structures.</p>
+        <button onclick="backToDataStructures()">Back</button>
+    </div>
+
+    <!-- Notes Section for Data Structures -->
+    <div id="notes-data-structures" class="lesson-content">
+        <h4>Chú thích</h4>
+        <textarea placeholder="Write your notes here..."></textarea>
+        <button onclick="backToDataStructures()">Back</button>
+    </div>
+
+    <button onclick="backToMainMenu()">Back to Subjects</button>
+</div>
+
+    
+<script>
+    function showContent(contentId, tabElement) {
+        const allTabs = document.querySelectorAll('.tab-item');
+        const allContents = document.querySelectorAll('.content');
+        allTabs.forEach(tab => tab.classList.remove('active'));
+        tabElement.classList.add('active');
+        allContents.forEach(content => content.classList.remove('active'));
+        document.getElementById(contentId).classList.add('active');
+    }
+
+    function showLessonContent(contentId) {
+        const lessonContents = document.querySelectorAll('.lesson-content');
+        lessonContents.forEach(content => content.classList.remove('active'));
+        document.getElementById(contentId).classList.add('active');
+    }
+    function backToOrganicChemistry() {
+        const lessonContents = document.querySelectorAll('.lesson-content');
+        lessonContents.forEach(content => content.classList.remove('active'));
+        document.getElementById('organic-chemistry').classList.add('active');
+    }
+
+    function backToInorganicChemistry() {
+        const lessonContents = document.querySelectorAll('.lesson-content');
+        lessonContents.forEach(content => content.classList.remove('active'));
+        document.getElementById('inorganic-chemistry').classList.add('active');
+    }
+
+    function addCommentOrganic() {
+        const input = document.getElementById('comment-input-organic');
+        const commentSection = document.querySelector('#discussion-organic .discussion-section');
+        const newComment = document.createElement('div');
+        newComment.className = 'comment-item';
+        newComment.textContent = input.value || "No comment text entered.";
+        commentSection.appendChild(newComment);
+        input.value = '';
+    }
+
+    function addCommentInorganic() {
+        const input = document.getElementById('comment-input-inorganic');
+        const commentSection = document.querySelector('#discussion-inorganic .discussion-section');
+        const newComment = document.createElement('div');
+        newComment.className = 'comment-item';
+        newComment.textContent = input.value || "No comment text entered.";
+        commentSection.appendChild(newComment);
+        input.value = '';
+    }
+       function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        function showContent(contentId, tab) {
+            const contents = document.querySelectorAll('.content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(contentId).classList.add('active');
+
+            const tabs = document.querySelectorAll('.tab-item');
+            tabs.forEach(t => {
+                t.classList.remove('active');
+            });
+            tab.classList.add('active');
+        }
+
+        function showLessonContent(lessonId) {
+            const lessonContents = document.querySelectorAll('.lesson-content');
+            lessonContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(lessonId).classList.add('active');
+        }
+
+        function backToAlgebra() {
+            const lessonContents = document.querySelectorAll('.lesson-content');
+            lessonContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById('algebra').classList.add('active');
+        }
+
+        function backToCalculus() {
+            const lessonContents = document.querySelectorAll('.lesson-content');
+            lessonContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById('calculus').classList.add('active');
+        }
+
+        function addComment() {
+            const input = document.getElementById('comment-input');
+            const commentSection = document.querySelector('.discussion-section');
+            const newComment = document.createElement('div');
+            newComment.className = 'comment-item';
+            newComment.textContent = input.value || "No comment text entered.";
+            commentSection.appendChild(newComment);
+            input.value = '';
+        }
+
+        function addCommentCalculus() {
+            const input = document.getElementById('comment-input-calculus');
+            const commentSection = document.querySelector('#discussion-calculus .discussion-section');
+            const newComment = document.createElement('div');
+            newComment.className = 'comment-item';
+            newComment.textContent = input.value || "No comment text entered.";
+            commentSection.appendChild(newComment);
+            input.value = '';
+        }
+        
+        function backToAlgebra1() {
+            const lessonContents = document.querySelectorAll('.lesson-content');
+            lessonContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById('algebra1').classList.add('active');
+        }
+
+        function backToCalculus1() {
+            const lessonContents = document.querySelectorAll('.lesson-content');
+            lessonContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById('calculus1').classList.add('active');
+        }
+function addCommentCalculus1() {
+            const input = document.getElementById('comment-input-calculus1');
+            const commentSection = document.querySelector('#discussion-calculus1 .discussion-section');
+            const newComment = document.createElement('div');
+            newComment.className = 'comment-item';
+            newComment.textContent = input.value || "No comment text entered.";
+            commentSection.appendChild(newComment);
+            input.value = '';
+        }
+        
+    function backToMechanics() {
+        const lessonContents = document.querySelectorAll('.lesson-content');
+        lessonContents.forEach(content => content.classList.remove('active'));
+        document.getElementById('mechanics').classList.add('active');
+    }
+
+    function backToElectromagnetism() {
+        const lessonContents = document.querySelectorAll('.lesson-content');
+        lessonContents.forEach(content => content.classList.remove('active'));
+        document.getElementById('electromagnetism').classList.add('active');
+    }
+
+    function addCommentMechanics() {
+        const input = document.getElementById('comment-input-mechanics');
+        const commentSection = document.querySelector('#discussion-mechanics .discussion-section');
+        const newComment = document.createElement('div');
+        newComment.className = 'comment-item';
+        newComment.textContent = input.value || "No comment text entered.";
+        commentSection.appendChild(newComment);
+        input.value = '';
+    }
+
+    function addCommentElectromagnetism() {
+        const input = document.getElementById('comment-input-electromagnetism');
+        const commentSection = document.querySelector('#discussion-electromagnetism .discussion-section');
+        const newComment = document.createElement('div');
+        newComment.className = 'comment-item';
+        newComment.textContent = input.value || "No comment text entered.";
+        commentSection.appendChild(newComment);
+        input.value = '';
+    }
+	
+     function backToModernLiterature() {
+        const lessonContents = document.querySelectorAll('.lesson-content');
+        lessonContents.forEach(content => content.classList.remove('active'));
+        document.getElementById('modern-literature').classList.add('active');
+    }
+
+    function backToClassicalLiterature() {
+        const lessonContents = document.querySelectorAll('.lesson-content');
+        lessonContents.forEach(content => content.classList.remove('active'));
+        document.getElementById('classical-literature').classList.add('active');
+    }
+
+    function addCommentModern() {
+        const input = document.getElementById('comment-input-modern');
+        const commentSection = document.querySelector('#discussion-modern .discussion-section');
+        const newComment = document.createElement('div');
+        newComment.className = 'comment-item';
+        newComment.textContent = input.value || "No comment text entered.";
+        commentSection.appendChild(newComment);
+        input.value = '';
+    }
+
+    function addCommentClassical() {
+        const input = document.getElementById('comment-input-classical');
+        const commentSection = document.querySelector('#discussion-classical .discussion-section');
+        const newComment = document.createElement('div');
+        newComment.className = 'comment-item';
+        newComment.textContent = input.value || "No comment text entered.";
+        commentSection.appendChild(newComment);
+        input.value = '';
+    }
+    
+    function backToAncientHistory() {
+        const lessonContents = document.querySelectorAll('.lesson-content');
+        lessonContents.forEach(content => content.classList.remove('active'));
+        document.getElementById('ancient-history').classList.add('active');
+    }
+
+    function backToModernHistory() {
+        const lessonContents = document.querySelectorAll('.lesson-content');
+        lessonContents.forEach(content => content.classList.remove('active'));
+        document.getElementById('modern-history').classList.add('active');
+    }
+
+    function addCommentAncient() {
+        const input = document.getElementById('comment-input-ancient');
+        const commentSection = document.querySelector('#discussion-ancient .discussion-section');
+        const newComment = document.createElement('div');
+        newComment.className = 'comment-item';
+        newComment.textContent = input.value || "No comment text entered.";
+        commentSection.appendChild(newComment);
+        input.value = '';
+    }
+
+    function addCommentModernHistory() {
+        const input = document.getElementById('comment-input-modern-history');
+        const commentSection = document.querySelector('#discussion-modern-history .discussion-section');
+        const newComment = document.createElement('div');
+        newComment.className = 'comment-item';
+        newComment.textContent = input.value || "No comment text entered.";
+        commentSection.appendChild(newComment);
+        input.value = '';
+    }
+    function backToGrammar() {
+        const lessonContents = document.querySelectorAll('.lesson-content');
+        lessonContents.forEach(content => content.classList.remove('active'));
+        document.getElementById('grammar').classList.add('active');
+    }
+
+    function backToVocabulary() {
+        const lessonContents = document.querySelectorAll('.lesson-content');
+        lessonContents.forEach(content => content.classList.remove('active'));
+        document.getElementById('vocabulary').classList.add('active');
+    }
+
+    function addCommentGrammar() {
+        const input = document.getElementById('comment-input-grammar');
+        const commentSection = document.querySelector('#discussion-grammar .discussion-section');
+        const newComment = document.createElement('div');
+        newComment.className = 'comment-item';
+        newComment.textContent = input.value || "No comment text entered.";
+        commentSection.appendChild(newComment);
+        input.value = '';
+    }
+
+    function addCommentVocabulary() {
+        const input = document.getElementById('comment-input-vocabulary');
+        const commentSection = document.querySelector('#discussion-vocabulary .discussion-section');
+        const newComment = document.createElement('div');
+        newComment.className = 'comment-item';
+        newComment.textContent = input.value || "No comment text entered.";
+        commentSection.appendChild(newComment);
+        input.value = '';
+    }
+    
+     function backToCellBiology() {
+        const lessonContents = document.querySelectorAll('.lesson-content');
+        lessonContents.forEach(content => content.classList.remove('active'));
+        document.getElementById('cell-biology').classList.add('active');
+    }
+
+    function backToGenetics() {
+        const lessonContents = document.querySelectorAll('.lesson-content');
+        lessonContents.forEach(content => content.classList.remove('active'));
+        document.getElementById('genetics').classList.add('active');
+    }
+
+    function addCommentCellBiology() {
+        const input = document.getElementById('comment-input-cell-biology');
+        const commentSection = document.querySelector('#discussion-cell-biology .discussion-section');
+        const newComment = document.createElement('div');
+        newComment.className = 'comment-item';
+        newComment.textContent = input.value || "No comment text entered.";
+        commentSection.appendChild(newComment);
+        input.value = '';
+    }
+
+    function addCommentGenetics() {
+        const input = document.getElementById('comment-input-genetics');
+        const commentSection = document.querySelector('#discussion-genetics .discussion-section');
+        const newComment = document.createElement('div');
+        newComment.className = 'comment-item';
+        newComment.textContent = input.value || "No comment text entered.";
+        commentSection.appendChild(newComment);
+        input.value = '';
+    }
+    
+     function backToPhysicalGeography() {
+        const lessonContents = document.querySelectorAll('.lesson-content');
+        lessonContents.forEach(content => content.classList.remove('active'));
+        document.getElementById('physical-geography').classList.add('active');
+    }
+
+    function backToHumanGeography() {
+        const lessonContents = document.querySelectorAll('.lesson-content');
+        lessonContents.forEach(content => content.classList.remove('active'));
+        document.getElementById('human-geography').classList.add('active');
+    }
+
+    function addCommentPhysicalGeography() {
+        const input = document.getElementById('comment-input-physical-geography');
+        const commentSection = document.querySelector('#discussion-physical-geography .discussion-section');
+        const newComment = document.createElement('div');
+        newComment.className = 'comment-item';
+        newComment.textContent = input.value || "No comment text entered.";
+        commentSection.appendChild(newComment);
+        input.value = '';
+    }
+
+    function addCommentHumanGeography() {
+        const input = document.getElementById('comment-input-human-geography');
+        const commentSection = document.querySelector('#discussion-human-geography .discussion-section');
+        const newComment = document.createElement('div');
+        newComment.className = 'comment-item';
+        newComment.textContent = input.value || "No comment text entered.";
+        commentSection.appendChild(newComment);
+        input.value = '';
+    }
+    function backToProgrammingFundamentals() {
+        const lessonContents = document.querySelectorAll('.lesson-content');
+        lessonContents.forEach(content => content.classList.remove('active'));
+        document.getElementById('programming-fundamentals').classList.add('active');
+    }
+
+    function backToDataStructures() {
+        const lessonContents = document.querySelectorAll('.lesson-content');
+        lessonContents.forEach(content => content.classList.remove('active'));
+        document.getElementById('data-structures').classList.add('active');
+    }
+
+    function addCommentProgramming() {
+        const input = document.getElementById('comment-input-programming');
+        const commentSection = document.querySelector('#discussion-programming .discussion-section');
+        const newComment = document.createElement('div');
+        newComment.className = 'comment-item';
+        newComment.textContent = input.value || "No comment text entered.";
+        commentSection.appendChild(newComment);
+        input.value = '';
+    }
+
+    function addCommentDataStructures() {
+        const input = document.getElementById('comment-input-data-structures');
+        const commentSection = document.querySelector('#discussion-data-structures .discussion-section');
+        const newComment = document.createElement('div');
+        newComment.className = 'comment-item';
+        newComment.textContent = input.value || "No comment text entered.";
+        commentSection.appendChild(newComment);
+        input.value = '';
+    }
+       function backToOrganicChemistry() {
+        const lessonContents = document.querySelectorAll('.lesson-content');
+        lessonContents.forEach(content => content.classList.remove('active'));
+        document.getElementById('organic-chemistry').classList.add('active');
+    }
+
+    function backToInorganicChemistry() {
+        const lessonContents = document.querySelectorAll('.lesson-content');
+        lessonContents.forEach(content => content.classList.remove('active'));
+        document.getElementById('inorganic-chemistry').classList.add('active');
+    }
+
+    function addCommentOrganic() {
+        const input = document.getElementById('comment-input-organic');
+        const commentSection = document.querySelector('#discussion-organic .discussion-section');
+        const newComment = document.createElement('div');
+        newComment.className = 'comment-item';
+        newComment.textContent = input.value || "No comment text entered.";
+        commentSection.appendChild(newComment);
+        input.value = '';
+    }
+
+    function addCommentInorganic() {
+        const input = document.getElementById('comment-input-inorganic');
+        const commentSection = document.querySelector('#discussion-inorganic .discussion-section');
+        const newComment = document.createElement('div');
+        newComment.className = 'comment-item';
+        newComment.textContent = input.value || "No comment text entered.";
+        commentSection.appendChild(newComment);
+        input.value = '';
+    }
+        function backToMainMenu() {
+            const allSections = document.querySelectorAll('.section');
+            allSections.forEach(section => section.classList.remove('active'));
+            document.getElementById('main-menu').classList.add('active'); // Quay lại menu chính
+        }
+       function showLessonContent(lessonContentId) {
+    	// Ẩn tất cả nội dung bài học
+    const allLessonContents = document.querySelectorAll('.lesson-content');
+    allLessonContents.forEach(content => content.classList.remove('active'));
+
+    // Ẩn tất cả các phần bài học chính để tránh chồng chéo    const allMainContents = document.querySelectorAll('.content');
+
+    const allMainContents = document.querySelectorAll('.content');
+    allMainContents.forEach(mainContent => mainContent.classList.remove('active'));
+    // Hiển thị nội dung bài học đã chọn
+    document.getElementById(lessonContentId).classList.add('active');
+}
+    </script>
+</body>
+</html>
